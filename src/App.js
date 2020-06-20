@@ -6,44 +6,37 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import {
-  Text,
-  SafeAreaView,
-  Platform,
-  TouchableOpacity,
-  Alert,
-  View,
-  Image,
-} from 'react-native';
-import styles from './asset/style';
-import ActivityForm from './component/TodoForm';
-import ActivityList from './component/TodoList';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Home from '../src/pages/Home';
+import Profile from '../src/pages/Profile';
+import Login from '../src/pages/Login';
+import Landing from '../src/pages/Landing';
 
+const Stack = createStackNavigator();
 const App = () => {
-  const [todos, setTodos] = useState([]);
-  const dataActivityParent = (data) => {
-    setTodos(todos.concat(data));
-  };
   return (
-    <SafeAreaView>
-      <View style={styles.header}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: 'https://reactnative.dev/img/tiny_logo.png',
-          }}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Landing"
+          component={Landing}
+          options={{title: 'Please login'}}
         />
-        <Text style={styles.title}>PEER</Text>
-      </View>
-      <View style={styles.box}>
-        <ActivityForm dataActivity={dataActivityParent} />
-      </View>
-
-      <View style={styles.box}>
-        <ActivityList ListTodo={todos} />
-      </View>
-    </SafeAreaView>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{title: 'Login'}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{title: 'Welcome'}}
+        />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
