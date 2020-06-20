@@ -10,6 +10,21 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginBottom: 20,
   },
+  h1: {
+    fontSize: 21,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+
+  welcome: {
+    fontSize: 16,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+
   inputText: {
     fontSize: 12,
     fontWeight: '600',
@@ -24,6 +39,11 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
     backgroundColor: 'red',
+    alignItems: 'center',
+  },
+  buttonLogout: {
+    borderRadius: 5,
+    backgroundColor: 'darkgrey',
     alignItems: 'center',
   },
   buttonText: {
