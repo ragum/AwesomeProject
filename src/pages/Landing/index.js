@@ -20,10 +20,10 @@ const Landing  = ({navigation}) => {
             navigation.navigate('Login')
           }
         />
-		<TouchableOpacity style={sty.button} onPress={() => navigation.navigate('Plp')}>
+		<TouchableOpacity style={sty.hide} onPress={() => navigation.navigate('Plp')}>
             <Text style={sty.buttonText}>PLP</Text>
 		</TouchableOpacity>
-		<TouchableOpacity style={sty.button} onPress={() => navigation.navigate('Pdp')}>
+		<TouchableOpacity style={sty.hide} onPress={() => navigation.navigate('Pdp')}>
             <Text style={sty.buttonText}>PDP</Text>
 		</TouchableOpacity>
   </View>

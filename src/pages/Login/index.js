@@ -30,32 +30,22 @@ import AUTH_ACTION from '../../stores/actions/auth';
 const Login = ({navigation, setSign}) => {
   const [username, setUsername] = useState(Platform.OS === 'ios' ? '' : null);
   const [password, setPassword] = useState(Platform.OS === 'ios' ? '' : null);
+	const getData = async () => {
+		let response = null;
 
-  const gotoHome = () => {
-    navigation.navigate('Home', {email: username});
-  };
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        // value previously stored
-        console.log(value);
-        gotoHome();
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
+		try {
+			response = await AsyncStorage.getItem('token');
+			response = response !== null ? response : null;
+		} catch (error) {
+			console.log(error);
+		}
+		return response;
+	};
   const storeData = async (value) => {
     try {
-      let dataFormat = {
-        type: 'login',
-        token: value,
-      };
-      const jsonValue = JSON.stringify(dataFormat);
-      await AsyncStorage.setItem('token', jsonValue);
-    } catch (e) {
-      // saving error
+      await AsyncStorage.setItem('token', value);
+    } catch (error) {
+      console.log(error);
     }
   };
   const postLogin = () => {
@@ -69,16 +59,17 @@ const Login = ({navigation, setSign}) => {
     let params = {email: username, pass: password};
     mutate(schema, params).then((res) => {
       const {data} = res;
-      const user = data.generateCustomerTokenCustom;
-      console.log(user);
+      let user = data.generateCustomerTokenCustom;
+      console.log('user ' + user);
+      storeData(user.token);
       let dataFormat = {
         type: 'login',
         token: user.token,
       };
       setSign(dataFormat);
-      gotoHome();
-        // storeData(user.token);
-      // getData();
+	  if (user.token !== null) {
+		navigation.navigate('Home', {email: username});
+	  }
     });
   };
   return (

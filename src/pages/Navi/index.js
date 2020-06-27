@@ -61,6 +61,12 @@ const Navi = ({auth}) => {
         />
 
         <Stack.Screen
+            name="Plp"
+            component={Plp}
+            options={{title: 'PLP'}}
+        />
+
+        <Stack.Screen
             name="Pdp"
             component={Pdp}
             options={{title: 'PDP'}}

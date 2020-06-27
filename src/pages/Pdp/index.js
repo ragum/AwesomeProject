@@ -8,9 +8,10 @@
  */
 
 import React from 'react';
-import {View, Button, Text} from 'react-native';
+import {View, Button, Text, Image, ScrollView} from 'react-native';
 import { gql } from 'apollo-boost';
 import { useQuery } from '@apollo/react-hooks';
+import sty from '../../asset/assesment/final';
 
 const PRODUCT_QUERY = gql`
 query getProduct($urlKey: String!) {
@@ -43,10 +44,10 @@ query getProduct($urlKey: String!) {
 }
 `;
 
-const Pdp  = ({navigation}) => {
-
+const Pdp  = ({route}) => {
+    const { url_key } = route.params;
     const {loading, data, error} = useQuery(PRODUCT_QUERY, {
-        variables: {urlKey: 'gaga-100-extra-pedas-goreng-jalapeno-85-gr'},
+        variables: {urlKey: url_key},
     });
     if (loading){
 		return <Text>Loading...</Text>;
@@ -59,7 +60,13 @@ const Pdp  = ({navigation}) => {
     const product = data.products.items[0];
     const productDescription = product.description.html;
   return (
+    <ScrollView>
     <View>
+        <Image style={sty.image}
+          source={{
+            uri: product.image.url,
+          }}
+        />
       <View>
         <Text>{product.name}</Text>
       </View>
@@ -85,6 +92,7 @@ const Pdp  = ({navigation}) => {
             <View className="product_description">{productDescription}</View>
         ) : null}
   </View>
+  </ScrollView>
   );
 };
 
