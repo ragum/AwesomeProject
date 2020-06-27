@@ -13,9 +13,10 @@ const apolloInit = async (config) => {
     getAuthData = JSON.parse(getAuthData);
     // Retrieve the authorization token from local storage.
     let token = '';
+    console.log('token1 ' + getAuthData);
     if (getAuthData === null) {token === '';}
-    else if (getAuthData.token === null) {token = '';}
-    else {token = getAuthData.token;}
+    else if (getAuthData === null) {token = '';}
+    else {token = getAuthData;}
     const authorization = token !== '' ? `Bearer ${token}` : '';
     // Use the setContext method to set the HTTP headers.
     operation.setContext({

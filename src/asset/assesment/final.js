@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   image: {
-    width: 25,
-    height: 25,
+    width: 125,
+    height: 125,
   },
   button: {
     borderRadius: 5,
@@ -51,6 +51,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
     fontWeight: 'bold',
+  },
+  inline: {
+    flexDirection:'row',
+    flexWrap:'wrap',
+  },
+  imagepdp: {
+    width: '90%',
+    height: '90%',
+  },
+  hide: {
+    display: 'none',
   },
 });
 

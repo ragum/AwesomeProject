@@ -20,6 +20,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Category from '../Category';
 import styles from '../../asset/todo/style';
 import {connect} from 'react-redux';
+import Notif from '../Customer/notif';
+import Customer from '../Customer';
 
 const Home = ({route, navigation, auth}) => {
   const gotoLanding = () => {
@@ -92,6 +94,8 @@ const Home = ({route, navigation, auth}) => {
           <View>
             <Text style={styles.h1}>Sukses Login!!</Text>
           </View>
+          <Customer />
+          <Notif />
           <Category />
           <TouchableOpacity style={styles.buttonLogout} onPress={logOut}>
             <Text style={styles.buttonText}>Log Out</Text>
