@@ -7,7 +7,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -24,12 +24,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import styles from '../../asset/todo/style';
 import styless from '../../asset/style';
 
-const Login = ({navigation}) => {
+import {connect} from 'react-redux';
+import AUTH_ACTION from '../../stores/actions/auth';
+
+const Login = ({navigation, setSign}) => {
   const [username, setUsername] = useState(Platform.OS === 'ios' ? '' : null);
   const [password, setPassword] = useState(Platform.OS === 'ios' ? '' : null);
 
   const gotoHome = () => {
-    navigation.navigate('Home', { email: username });
+    navigation.navigate('Home', {email: username});
   };
   const getData = async () => {
     try {
@@ -45,7 +48,12 @@ const Login = ({navigation}) => {
   };
   const storeData = async (value) => {
     try {
-      await AsyncStorage.setItem('token', value);
+      let dataFormat = {
+        type: 'login',
+        token: value,
+      };
+      const jsonValue = JSON.stringify(dataFormat);
+      await AsyncStorage.setItem('token', jsonValue);
     } catch (e) {
       // saving error
     }
@@ -62,9 +70,15 @@ const Login = ({navigation}) => {
     mutate(schema, params).then((res) => {
       const {data} = res;
       const user = data.generateCustomerTokenCustom;
-    //   console.log(user.token);
-      storeData(user.token);
-      getData();
+      console.log(user);
+      let dataFormat = {
+        type: 'login',
+        token: user.token,
+      };
+      setSign(dataFormat);
+      gotoHome();
+        // storeData(user.token);
+      // getData();
     });
   };
   return (
@@ -73,21 +87,23 @@ const Login = ({navigation}) => {
         <ScrollView>
           <View style={styless.box}>
             <Text style={styless.label}> Username</Text>
-            <TextInput style={styles.inputText}
+            <TextInput
+              style={styles.inputText}
               onChangeText={(text) => {
                 setUsername(text);
               }}
             />
             <View />
             <Text style={styless.label}> password</Text>
-            <TextInput style={styles.inputText}
+            <TextInput
+              style={styles.inputText}
               onChangeText={(text) => {
                 setPassword(text);
               }}
               secureTextEntry={true}
             />
             <View />
-            <TouchableOpacity style={styles.button} onPress={postLogin}>
+            <TouchableOpacity style={styles.button} onPress={() => postLogin()}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={getData}>
@@ -99,5 +115,7 @@ const Login = ({navigation}) => {
     </>
   );
 };
-
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  setSign: (data) => dispatch(AUTH_ACTION.setToken(data)),
+});
+export default connect(null, mapDispatchToProps)(Login);

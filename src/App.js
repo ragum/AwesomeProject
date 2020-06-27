@@ -7,36 +7,25 @@
  */
 
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Home from '../src/pages/Home';
-import Profile from '../src/pages/Profile';
-import Login from '../src/pages/Login';
-import Landing from '../src/pages/Landing';
+import {Provider} from 'react-redux';
+import ApolloClient from 'apollo-boost';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+import {ApolloProvider} from '@apollo/react-hooks';
+import store from './stores';
 
-const Stack = createStackNavigator();
+import Navi from '../src/pages/Navi';
+
+const client = new ApolloClient({
+  uri: 'https://lottemart.testingnow.me/graphql',
+  cache: new InMemoryCache(),
+});
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Landing"
-          component={Landing}
-          options={{title: 'Please login'}}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{title: 'Login'}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{title: 'Welcome'}}
-        />
-        <Stack.Screen name="Profile" component={Profile} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <Navi />
+      </Provider>
+    </ApolloProvider>
   );
 };
 
